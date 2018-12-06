@@ -39,7 +39,7 @@ describe('Persistent Node Chat Server', function() {
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/messages',
         json: {
-          username: 'Valjean',
+          username: 'ValjeanAlt',
           message: 'In mercy\'s name, three days is all I need.',
           roomname: 'Hello'
         }
