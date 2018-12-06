@@ -1,3 +1,5 @@
+DROP DATABASE chat;
+
 CREATE DATABASE chat;
 
 USE chat;
@@ -17,19 +19,26 @@ CREATE TABLE users (
 CREATE TABLE messages (
   id INT NOT NULL AUTO_INCREMENT,
   text varchar(1000),
-  createdAt DATETIME,
-  userID INT NOT NULL,
-  roomID INT NOT NULL,
-  FOREIGN KEY (userID)
-    REFERENCES users(id)
-    ON DELETE CASCADE,
-  FOREIGN KEY (roomID) 
-    REFERENCES rooms(id)
-    ON DELETE CASCADE,  
   PRIMARY KEY (id)
 );
 
 /*  Execute this file from the command line by typing:
- *    mysql -u root < server/schema.sql
+ *    mysql -u student < server/schema.sql
  *  to create the database and the tables.*/
+ 
+
+/*  
+userID INT NOT NULL,
+roomID INT NOT NULL,
+FOREIGN KEY (userID)
+  REFERENCES users(id)
+  ON DELETE CASCADE,
+FOREIGN KEY (roomID) 
+  REFERENCES rooms(id)
+  ON DELETE CASCADE,  
+*/
+
+/* mysql -u student -pstudent < server/schema.sql
+   mysql chat -u student -pstudent 
+*/
 
