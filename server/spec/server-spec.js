@@ -20,7 +20,8 @@ describe('Persistent Node Chat Server', function() {
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query('truncate ' + tablename, done);
+    dbConnection.query('truncate ' + tablename, done); // CLEARS MESSAGES TABLE
+    // done(); // DOES NOT CLEAR 
   });
 
   afterEach(function() {
@@ -39,7 +40,7 @@ describe('Persistent Node Chat Server', function() {
         method: 'POST',
         uri: 'http://127.0.0.1:3000/classes/messages',
         json: {
-          username: 'ValjeanAlt',
+          username: 'Valjean',
           message: 'In mercy\'s name, three days is all I need.',
           roomname: 'Hello'
         }

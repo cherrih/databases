@@ -21,14 +21,15 @@ CREATE TABLE messages (
   text varchar(1000),
   userID INT NOT NULL,
   roomID INT NOT NULL,
+  FOREIGN KEY (userID)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
   PRIMARY KEY (id)
 );
  
 /*  
 
-FOREIGN KEY (userID)
-  REFERENCES users(id)
-  ON DELETE CASCADE,
+
 FOREIGN KEY (roomID) 
   REFERENCES rooms(id)
   ON DELETE CASCADE,  
