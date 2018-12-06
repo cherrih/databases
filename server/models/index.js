@@ -5,7 +5,15 @@ db.connection.queryAsync = queryAsync;
 
 module.exports = {
   messages: {
-    get: function () {}, // a function which produces all the messages
+    
+    get: function (req, res) {
+      var selectQuery = `SELECT * FROM messages, users, rooms WHERE messages.userID = users.id AND messages.roomID = rooms.id;`;
+      db.connection.queryAsync(selectQuery)
+        .then(results => {
+          res.end(JSON.stringify(results));
+        });
+    }, 
+    
     post: function (req, res) {
       
       var username = db.connection.escape(req.body.username);
@@ -49,55 +57,8 @@ module.exports = {
             res.end();
           });
       });
-      
-      
-      // var userID;
-      // var username = db.connection.escape(req.body.username);
-      // var selectQuery = `SELECT id FROM users WHERE username = ${username};`;
-      // db.connection.query(selectQuery, (err, results) => {
-      //   if (err) {
-          
-      //   } else {
-      //     if (results.length === 0) {
-      //       // case for no existing user
-      //       // INSERT and then grab associated ID
-      //       var insertQuery = `INSERT INTO users (username) VALUES (${username});`;
-      //       db.connection.query(insertQuery, (err, results) => {
-      //         if (err) {
-      //           console.log(err);   
-      //         } else {
-      //           userID = results.insertId;
-      //           var message = db.connection.escape(req.body.message);
-      //           var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, 0);`;
-      //           db.connection.query(insertQuery, (err, results) => {
-      //             if (err) {
-      //               console.log(err);
-      //             } else {
-      //               res.end();
-      //             }
-      //           });
-      //         }
-      //       });
-      //     } else {
-      //       // case for existing user
-      //       // grab associated ID
-      //       userID = results[0].id;
-      //       // USE USERID TO INSERT INTO MESSAGES TABLE
-      //       var message = db.connection.escape(req.body.message);
-      //       var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, 0);`;
-      //       db.connection.query(insertQuery, (err, results) => {
-      //         if (err) {
-      //           console.log(err);
-      //         } else {
-      //           res.end();
-      //         }
-      //       });
-      //     }
-      //     res.end();
-      //   }
-      // });
-      
     } 
+    
   },
 
   users: {

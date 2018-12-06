@@ -24,18 +24,14 @@ CREATE TABLE messages (
   FOREIGN KEY (userID)
     REFERENCES users(id)
     ON DELETE CASCADE,
+  FOREIGN KEY (roomID) 
+    REFERENCES rooms(id)
+    ON DELETE CASCADE, 
   PRIMARY KEY (id)
 );
  
-/*  
-
-
-FOREIGN KEY (roomID) 
-  REFERENCES rooms(id)
-  ON DELETE CASCADE,  
-*/
-
-/* mysql -u student -pstudent < server/schema.sql
-   mysql chat -u student -pstudent 
+/* 
+mysql -u student -pstudent < server/schema.sql
+mysql chat -u student -pstudent 
 */
 
