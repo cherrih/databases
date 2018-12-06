@@ -7,13 +7,14 @@ module.exports = {
   messages: {
     get: function () {}, // a function which produces all the messages
     post: function (req, res) {
+      
       var username = db.connection.escape(req.body.username);
-      var selectQuery = `SELECT id FROM users WHERE username = ${username};`;
-      var userIDPromise = db.connection.queryAsync(selectQuery)
+      var usersSelectQuery = `SELECT id FROM users WHERE username = ${username};`;
+      var userIDPromise = db.connection.queryAsync(usersSelectQuery)
         .then(results => {
           if (results.length === 0) {
-            var insertQuery = `INSERT INTO users (username) VALUES (${username});`;
-            return db.connection.queryAsync(insertQuery)
+            var usersInsertQuery = `INSERT INTO users (username) VALUES (${username});`;
+            return db.connection.queryAsync(usersInsertQuery)
               .then(results => {
                 return results.insertId;
               });
@@ -21,14 +22,28 @@ module.exports = {
             return results[0].id;
           }
         });
-        
-      var promiseArray = [userIDPromise];
-      // var promiseArray = [userIDPromise, roomIDPromise];
+      
+      var roomname = db.connection.escape(req.body.roomname);
+      var roomsSelectQuery = `SELECT id FROM rooms WHERE roomname = ${roomname};`;
+      var roomIDPromise = db.connection.queryAsync(roomsSelectQuery)
+        .then(results => {
+          if (results.length === 0) {
+            var roomsInsertQuery = `INSERT INTO rooms (roomname) VALUES (${roomname});`;
+            return db.connection.queryAsync(roomsInsertQuery)
+              .then(results => {
+                return results.insertId;
+              });
+          } else {
+            return results[0].id;
+          }
+        });
+      
+      var promiseArray = [userIDPromise, roomIDPromise];
       Promise.all(promiseArray).then((result) => {
         var message = db.connection.escape(req.body.message);
         var userID = result[0];
-        // var roomID = result[1];
-        var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, 0);`;
+        var roomID = result[1];
+        var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, ${roomID});`;
         db.connection.queryAsync(insertQuery)
           .then(() => {
             res.end();
