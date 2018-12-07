@@ -53,8 +53,9 @@ module.exports = {
         var roomID = result[1];
         var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, ${roomID});`;
         db.connection.queryAsync(insertQuery)
-          .then(() => {
-            res.end();
+          .then((results) => {
+            var dataObject = {objectId: results.insertId};
+            res.end(JSON.stringify(dataObject));
           });
       });
     } 

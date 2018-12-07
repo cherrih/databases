@@ -10,6 +10,6 @@ dbConnection = mysql.createConnection({
   database: 'chat'
 });
 
-// dbConnection.connect(); ???
+dbConnection.connect();
 
 module.exports.connection = dbConnection;
