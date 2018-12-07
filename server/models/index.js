@@ -7,9 +7,10 @@ module.exports = {
   messages: {
     
     get: function (req, res) {
-      var selectQuery = `SELECT * FROM messages, users, rooms WHERE messages.userID = users.id AND messages.roomID = rooms.id;`;
+      var selectQuery = 'SELECT messages.id, users.username, messages.text, rooms.roomname FROM users, messages, rooms WHERE users.id = messages.userID AND rooms.id = messages.roomID;'
       db.connection.queryAsync(selectQuery)
         .then(results => {
+          console.log(results);
           res.end(JSON.stringify(results));
         });
     }, 
@@ -48,13 +49,13 @@ module.exports = {
       
       var promiseArray = [userIDPromise, roomIDPromise];
       Promise.all(promiseArray).then((result) => {
-        var message = db.connection.escape(req.body.message);
+        var message = db.connection.escape(req.body.text);
         var userID = result[0];
         var roomID = result[1];
         var insertQuery = `INSERT INTO messages (text, userID, roomID) VALUES (${message}, ${userID}, ${roomID});`;
         db.connection.queryAsync(insertQuery)
           .then((results) => {
-            var dataObject = {objectId: results.insertId};
+            var dataObject = {id: results.insertId};
             res.end(JSON.stringify(dataObject));
           });
       });

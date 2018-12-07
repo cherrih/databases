@@ -20,6 +20,7 @@ var FormView = {
       data = JSON.parse(data);
       _.extend(message, data);
       Messages.add(message, MessagesView.render);
+      App.fetch();
     });
   },
 

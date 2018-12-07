@@ -8,7 +8,7 @@ var Messages = {
   },
 
   add: function(message, callback = ()=>{}) {
-    Messages._data[message.objectId] = message;
+    Messages._data[message.id] = message;
     callback(Messages.items());
   },
 
@@ -16,7 +16,7 @@ var Messages = {
     var length = Object.keys(Messages._data).length;
 
     for (let message of messages) {
-      Messages._data[message.objectId] = Messages._conform(message);
+      Messages._data[message.id] = Messages._conform(message);
     }
 
     // only invoke the callback if something changed
