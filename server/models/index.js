@@ -7,7 +7,7 @@ module.exports = {
   messages: {
     
     get: function (req, res) {
-      var selectQuery = 'SELECT messages.id, users.username, messages.text, rooms.roomname FROM users, messages, rooms WHERE users.id = messages.userID AND rooms.id = messages.roomID;'
+      var selectQuery = 'SELECT messages.id, users.username, messages.text, rooms.roomname FROM users, messages, rooms WHERE users.id = messages.userID AND rooms.id = messages.roomID;';
       db.connection.queryAsync(selectQuery)
         .then(results => {
           console.log(results);
